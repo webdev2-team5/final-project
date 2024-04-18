@@ -8,6 +8,8 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { FooterComponent } from './footer/footer.component';
+import {MatCard} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { FooterComponent } from './footer/footer.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCard,
+    MatExpansionModule
   ],
   providers: [
     provideClientHydration(),
