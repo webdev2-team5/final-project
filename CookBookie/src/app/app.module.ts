@@ -4,19 +4,22 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { PostEditComponent } from './post-edit/post-edit.component';
+import {MatCard} from "@angular/material/card"
 import { NgForm } from '@angular/forms';
-import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field"
+import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field";
+import { EditRecipeComponent } from './edit-recipe/edit-recipe.component'
 @NgModule({
   declarations: [
     AppComponent,
-    PostEditComponent
+    EditRecipeComponent,
+  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatFormField,
-    MatFormFieldControl
+    MatCard
+
   ],
   providers: [
     provideClientHydration(),
