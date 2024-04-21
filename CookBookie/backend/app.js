@@ -2,30 +2,28 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const PostModel = require('./Models/recipe')
+const Recipe = require('./Models/recipe')
 
 // Connect to MongoDB Atlas
 const uri = "mongodb+srv://CookBookieUser:CookBookiePassword@cookbookie.fdz6yqv.mongodb.net/?retryWrites=true&w=majority&appName=CookBookie";
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const port = 3000;
 
-async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect();
-  }
-}
-run().catch(console.dir);
+mongoose.connect(uri, clientOptions)
+  .then(() => {
+    console.log("Successfully connected to MongoDB.");
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+  })
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
 
 // Middleware
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
-app.use((req, res, next)=>{
+app.use((req, res, next, err)=>{
     res.setHeader("Access-Control-Allow-Origin","*");
     res.setHeader(
       "Access-Control-Allow-Headers",
@@ -36,10 +34,45 @@ app.use((req, res, next)=>{
     );
 
     next();
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
   });
 
 
-  // ROUTES WILL BE ADDED HERE
+// ROUTES WILL BE ADDED HERE
+// Route to retrieve a new recipe
+app.get('/api/recipes', async (req, res) => {
+  try {
+    const recipes = await Recipe.find();
+    res.json(recipes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
+// Route to Post a new recipe
+app.post('/api/recipes', async (req, res) => {
+  const { name, ingredients, instructions, favorited } = req.body;
+  const recipe = new Recipe({ name, ingredients, instructions, favorited });
+
+  try {
+    const newRecipe = await recipe.save();
+    res.status(201).json(newRecipe);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Route to Delete a recipe
+app.delete('/api/recipes/:id', async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+    await recipe.remove();
+    res.json({ message: "Deleted Recipe" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
   module.exports = app;
