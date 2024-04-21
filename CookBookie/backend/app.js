@@ -5,14 +5,21 @@ const mongoose = require('mongoose')
 const PostModel = require('./Models/recipe')
 
 // Connect to MongoDB Atlas
-mongoose.connect('REPLACE WITH CONNECTION STRING')
-.then(()=>{
-    console.log('Connected to database')
-})
-.catch((error) => {
-    console.log('Connection error:', error.message);
-  })
+const uri = "mongodb+srv://CookBookieUser:CookBookiePassword@cookbookie.fdz6yqv.mongodb.net/?retryWrites=true&w=majority&appName=CookBookie";
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
+async function run() {
+  try {
+    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    await mongoose.connect(uri, clientOptions);
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await mongoose.disconnect();
+  }
+}
+run().catch(console.dir);
 
 // Middleware
 app.use(bodyParser.urlencoded({extended:false}))
