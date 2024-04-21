@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Post } from '../post';
 
 @Component({
   selector: 'app-post-edit',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './post-edit.component.css'
 })
 export class PostEditComponent {
-
+  //the post object we will edit
+  post: Post[] = [];
+  
+  
 }
