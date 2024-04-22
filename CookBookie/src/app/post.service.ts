@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Post } from './post';
+import { Post } from './recipie';
 import { HttpClient,HttpClientJsonpModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 @Injectable({
