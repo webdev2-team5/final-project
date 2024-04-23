@@ -32,7 +32,8 @@ import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.comp
     AppRoutingModule,
     MatToolbarModule,
     MatCard,
-    MatExpansionModule
+    MatExpansionModule,
+    MatFormField,
   ],
   providers: [],
   bootstrap: [AppComponent]
