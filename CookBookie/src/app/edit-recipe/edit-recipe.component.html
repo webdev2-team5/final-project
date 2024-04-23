@@ -1,8 +1,12 @@
 <mat-card>
-    <form >
+    <form (submit)="onEditRecipe(recipeform)" #recipeform ="ngForm" >
         <mat-form-field>
             <label>Recipe Title</label>
-            <input type="text" name="recipe-title">
+            <input type="text" name="title" title="title">
+        </mat-form-field>
+        <mat-form-field>
+            <label>Ingredients</label>
+            <textarea rows="4" name="ingredients"></textarea>
         </mat-form-field>
         <mat-form-field>
             <label>Recipe</label>

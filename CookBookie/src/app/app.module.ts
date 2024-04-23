@@ -21,7 +21,7 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component'
     HeaderComponent,
     RecipeListComponent,
     RecipeCreateComponent,
-    FooterComponent
+    FooterComponent,
     EditRecipeComponent,
   
  ],
@@ -31,12 +31,11 @@ import { EditRecipeComponent } from './edit-recipe/edit-recipe.component'
     BrowserModule,
     AppRoutingModule,
     MatFormField,
-    MatCard
-
+    MatCard,
+    
   ],
   providers: [
-    provideClientHydration(),
-    provideAnimationsAsync()
+
   ],
   bootstrap: [AppComponent]
 })
