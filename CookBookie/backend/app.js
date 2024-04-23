@@ -3,9 +3,10 @@ const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const Recipe = require('./Models/recipe')
+require('dotenv').config({path: '../.env'})
 
 // Connect to MongoDB Atlas
-const uri = "mongodb+srv://CookBookieUser:CookBookiePassword@cookbookie.fdz6yqv.mongodb.net/?retryWrites=true&w=majority&appName=CookBookie";
+const uri = process.env.MONGO_URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 const port = 3000;
 
