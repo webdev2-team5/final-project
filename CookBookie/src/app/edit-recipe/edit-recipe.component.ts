@@ -14,7 +14,7 @@ export class EditRecipeComponent {
    if (form.invalid) {
       return;
    }
-   this.editService.getRecipe()
+  //  this.editService.getRecipe()
   }
   
 }
