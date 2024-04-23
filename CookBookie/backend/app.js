@@ -3,7 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const Recipe = require('./Models/recipe')
-require('dotenv').config({path: '../.env'})
+require('dotenv').config()
 
 // Connect to MongoDB Atlas
 const uri = process.env.MONGO_URI;
