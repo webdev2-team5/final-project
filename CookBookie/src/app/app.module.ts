@@ -40,7 +40,6 @@ import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.comp
   providers: [
 
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
