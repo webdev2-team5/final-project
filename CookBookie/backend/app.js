@@ -8,12 +8,10 @@ require('dotenv').config()
 // Connect to MongoDB Atlas
 const uri = process.env.MONGO_URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
-const port = 3000;
 
 mongoose.connect(uri, clientOptions)
   .then(() => {
     console.log("Successfully connected to MongoDB.");
-    app.listen(port, () => console.log(`Server running on port ${port}`));
   })
   .catch(err => {
     console.error("MongoDB connection error:", err);
