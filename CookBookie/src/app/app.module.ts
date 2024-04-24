@@ -8,7 +8,8 @@ import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { FooterComponent } from './footer/footer.component';
 import {MatCard} from "@angular/material/card"
-import { NgForm } from '@angular/forms';
+import { NgForm,FormsModule } from '@angular/forms';
+import {MatInput} from '@angular/material/input'
 import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field";
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -34,8 +35,15 @@ import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.comp
     MatCard,
     MatExpansionModule,
     MatFormField,
+    MatCard,
+    MatInput,
+    FormsModule
+
+    
   ],
-  providers: [],
+  providers: [
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
