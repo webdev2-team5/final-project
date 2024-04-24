@@ -14,6 +14,7 @@ import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/mate
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.component';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -37,9 +38,9 @@ import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.comp
     MatFormField,
     MatCard,
     MatInput,
-    FormsModule
+    FormsModule,
+    MatButtonModule
 
-    
   ],
   providers: [
 
