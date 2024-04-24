@@ -11,11 +11,9 @@ import {MatCard} from "@angular/material/card"
 import { NgForm,FormsModule } from '@angular/forms';
 import {MatInput} from '@angular/material/input'
 import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field";
-import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { EditRecipeComponent } from './recipe/edit-recipe/edit-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { RecipeCreateComponent } from './recipe/recipe-create/recipe-create.component';
 import {MatButtonModule} from '@angular/material/button';
-
 
 @NgModule({
   declarations: [
@@ -23,7 +21,6 @@ import {MatButtonModule} from '@angular/material/button';
     HeaderComponent,
     RecipeListComponent,
     HeaderComponent,
-    RecipeCreateComponent,
     FooterComponent,
     EditRecipeComponent,
  ],
