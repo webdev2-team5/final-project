@@ -13,7 +13,7 @@ import {MatInput} from '@angular/material/input'
 import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field";
 import { EditRecipeComponent } from './recipe/edit-recipe/edit-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -35,9 +35,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatFormField,
     MatCard,
     MatInput,
-    FormsModule
+    FormsModule,
+    MatButtonModule
 
-    
   ],
   providers: [
 
