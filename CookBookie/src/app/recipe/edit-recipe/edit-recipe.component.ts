@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import {NgForm} from "@angular/forms"
-import {Recipe} from '../recipe'
-import { RecipeService } from '../recipe.service';
+import {Recipe} from '../../recipe'
+import { RecipeService } from '../../recipe.service';
 @Component({
   selector: 'app-edit-recipe',
   templateUrl: './edit-recipe.component.html',
