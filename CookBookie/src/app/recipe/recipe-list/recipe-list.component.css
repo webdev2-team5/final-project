@@ -1,3 +1,4 @@
 button {
-  justify-self: center;
+  align-self: center;
+  width: 50%;
 }
