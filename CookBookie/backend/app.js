@@ -11,7 +11,7 @@ const clientOptions = { serverApi: { version: '1', strict: true, deprecationErro
 
 mongoose.connect(uri, clientOptions)
   .then(() => {
-    console.log("Successfully connected to MongoDB.");
+    console.debug("Successfully connected to MongoDB.");
   })
   .catch(err => {
     console.error("MongoDB connection error:", err);
