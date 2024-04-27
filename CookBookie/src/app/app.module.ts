@@ -11,9 +11,10 @@ import {MatCard} from "@angular/material/card"
 import { NgForm,FormsModule } from '@angular/forms';
 import {MatInput} from '@angular/material/input'
 import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/material/form-field";
-import { EditRecipeComponent } from './recipe/edit-recipe/edit-recipe.component';
+import { CreateRecipeComponent } from './recipe/create-recipe/create-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
     RecipeListComponent,
     HeaderComponent,
     FooterComponent,
-    EditRecipeComponent,
+    CreateRecipeComponent,
  ],
   imports: [
     BrowserAnimationsModule,
@@ -41,6 +42,8 @@ import {MatButtonModule} from '@angular/material/button';
   ],
   providers: [
 
+  
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
