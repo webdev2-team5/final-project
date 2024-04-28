@@ -78,6 +78,22 @@ app.post("/api/recipes", async (req, res) => {
   }
 });
 
+// Route to Post a new recipe
+app.post("/api/recipes", async (req, res) => {
+  const { name, ingredients, instructions, favorited } = req.body;
+  const recipe = new Recipe({ name, ingredients, instructions, favorited });
+  logger(recipe, 5);
+
+  try {
+    const newRecipe = await recipe.save();
+    logger("Recipe saved", 5);
+    res.status(201).json(newRecipe);
+  } catch (err) {
+    logger(err, 1);
+    res.status(400).json({ message: err.message });
+  }
+});
+
 // Route to Delete a recipe
 app.delete("/api/recipes/:id", async (req, res) => {
   try {
@@ -93,6 +109,31 @@ app.delete("/api/recipes/:id", async (req, res) => {
   } catch (err) {
     logger(err, 1);
     res.status(500).json({ message: err.message });
+  }
+});
+
+// Route to Post a new recipe
+app.patch("/api/recipes", async (req, res) => {
+  const { id, name, ingredients, instructions, favorited } = req.body;
+  try {
+    const recipe = await recipe.findByIdAndUpdate(
+      id,
+      {
+        name: name,
+        ingredients: ingredients,
+        instructions: instructions,
+        favorited: favorited,
+      },
+      {
+        new: true,
+      }
+    );
+    logger(recipe, 5);
+    logger("Recipe saved", 5);
+    res.status(201).json(recipe);
+  } catch (err) {
+    logger(err, 1);
+    res.status(400).json({ message: err.message });
   }
 });
 
