@@ -17,7 +17,7 @@ logger("Log Level: " + process.env.DEBUG_LEVEL, 0);
 mongoose
   .connect(uri, clientOptions)
   .then(() => {
-    console.debug("Successfully connected to MongoDB.");
+    logger("Successfully connected to MongoDB.", 0);
   })
   .catch((err) => {
     logger("MongoDB connection error: " + err, 1);
@@ -29,10 +29,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  logger(err.stack, 1);
   res.status(500).send({
-    error: 'Internal Server Error',
-    message: err.message
+    error: "Internal Server Error",
+    message: err.message,
   });
 });
 
@@ -42,8 +42,9 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  res.setHeader("Access-Control-Allow-Methods",
-  "GET, POST, PATCH, DELETE, OPTIONS"
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
   );
 
   next();
@@ -51,14 +52,13 @@ app.use((req, res, next) => {
 
 // ROUTES WILL BE ADDED HERE
 // Route to retrieve all recipes
-app.get('/api/recipes', async (req, res) => {
+app.get("/api/recipes", async (req, res) => {
   try {
     const recipes = await Recipe.find();
-    console.debug("All recipes returned:");
-    console.debug(recipes);
+    logger("All recipes returned:" + recipes, 5);
     res.json(recipes);
   } catch (err) {
-    console.error("No recipes found");
+    logger("No recipes found", 1);
     res.status(500).json({ message: err.message });
   }
 });
@@ -71,10 +71,10 @@ app.post("/api/recipes", async (req, res) => {
 
   try {
     const newRecipe = await recipe.save();
-    console.debug("New Recipe created and added to the database: ", recipe.name);
+    logger("New Recipe created and added to the database: " + recipe.name, 4);
     res.status(201).json(newRecipe);
   } catch (err) {
-    console.error("New Recipe not created.");
+    logger("New Recipe not created.", 1);
     res.status(400).json({ message: err.message });
   }
 });
@@ -89,7 +89,7 @@ app.delete("/api/recipes/:id", async (req, res) => {
     }
 
     await recipe.remove();
-    console.debug("Recipe deleted from database: ", recipe.name);
+    logger("Recipe deleted from database: " + recipe.name, 4);
     res.json({ message: "Deleted Recipe" });
   } catch (err) {
     console.error("Recipe not deleted from database.");
@@ -98,20 +98,20 @@ app.delete("/api/recipes/:id", async (req, res) => {
 });
 
 // Route to get a single recipe by id
-app.get('/api/recipes/:id', async (req, res) => {
+app.get("/api/recipes/:id", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
-    console.debug("Recipe found and returned: ", recipe.name);
+    logger("Recipe found and returned: " + recipe.name, 4);
     res.json(recipe);
   } catch (err) {
-    console.error("Recipe not found.");
+    logger("Recipe not found.", 1);
     res.status(500).json({ message: err.message });
   }
 });
 
 // Route to update a recipe
-app.patch('/api/recipes/:id', async (req, res) => {
+app.patch("/api/recipes/:id", async (req, res) => {
   const { name, ingredients, instructions, favorited } = req.body;
   try {
     const recipe = await Recipe.findById(req.params.id);
@@ -123,10 +123,10 @@ app.patch('/api/recipes/:id', async (req, res) => {
     if (favorited !== undefined) recipe.favorited = favorited;
 
     const updatedRecipe = await recipe.save();
-    console.debug("Recipe updated: ", recipe.name);
+    logger("Recipe updated: " + recipe.name, 4);
     res.json(updatedRecipe);
   } catch (err) {
-    console.error("Recipe not updated.");
+    logger("Recipe not updated.", 1);
     res.status(400).json({ message: err.message });
   }
 });
