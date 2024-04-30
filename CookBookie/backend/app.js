@@ -67,18 +67,18 @@ app.get("/api/recipes", async (req, res) => {
 
 // Route to Post a new recipe
 app.post("/api/recipes", async (req, res) => {
-  const { name, ingredients, instructions, favorited } = req.body;
-  const recipe = new Recipe({ name, ingredients, instructions, favorited });
-  logger(recipe, 5);
-
-  try {
-    const newRecipe = await recipe.save();
-    logger("New Recipe created and added to the database: " + recipe.name, 4);
-    res.status(201).json(newRecipe);
-  } catch (err) {
-    logger("New Recipe not created.", 1);
-    res.status(400).json({ message: err.message });
-  }
+  const recipe = new Recipe({
+    name: req.body.name, 
+    ingredients: req.body.ingredients,
+    instructions: req.body.instructions,
+    favorited: false,
+    createdAt: Date.now()
+  })
+  recipe.save()
+  console.log(recipe)
+  res.status(201).json({
+    message: "Post added successfully"
+});
 });
 
 // Route to Delete a recipe

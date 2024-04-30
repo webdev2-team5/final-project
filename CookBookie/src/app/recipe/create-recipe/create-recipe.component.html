@@ -6,17 +6,17 @@
     <form (submit)="onCreateRecipe(editform)" #editform="ngForm">
       <mat-form-field>
         <mat-label>Recipe Title</mat-label>
-        <input type="text" name="name" title="name" matInput />
+        <input type="text" name="name" title="name" matInput ngModel #name="ngModel"/>
       </mat-form-field>
       <br />
       <mat-form-field>
         <mat-label>Ingredients</mat-label>
-        <textarea rows="4" name="ingredients" matInput></textarea>
+        <textarea rows="4" name="ingredients" matInput ngModel #ingredients="ngModel"></textarea>
       </mat-form-field>
       <br />
       <mat-form-field>
         <mat-label>Instructions</mat-label>
-        <textarea rows="8" name="instructions" matInput></textarea>
+        <textarea rows="8" name="instructions" matInput ngModel #instructions="ngModel"></textarea>
       </mat-form-field>
       <button mat-raised-button type="submit">Submit</button>
     </form>
