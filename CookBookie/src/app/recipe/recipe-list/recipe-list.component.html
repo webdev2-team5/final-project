@@ -1,19 +1,20 @@
-<button mat-raised-button type="menu">Create Recipe</button>
-<mat-accordion multi="true" *ngIf="recipes.length > 0">
-  <mat-expansion-panel *ngFor="let recipe of recipes">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{ recipe.name }}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <p>{{ recipe.ingredients }}</p>
-    <p>{{ recipe.instructions }}</p>
-    <mat-action-row>
-      <button mat-button color="primary" (click)="showEdit(recipe.id)">
-        Edit
-      </button>
-      <button mat-button color="warn" (click)="onDelete(recipe.id)">
-        Delete
-      </button>
-    </mat-action-row>
-  </mat-expansion-panel>
-</mat-accordion>
+
+ <button mat-raised-button (click)="enableRecipeComponent()">Create Recipe</button>
+  <mat-accordion multi="true" *ngIf="recipes.length > 0">
+    <mat-expansion-panel *ngFor="let recipe of recipes">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{recipe.name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>{{recipe.ingredients}}</p>
+      <p>{{recipe.instructions}}</p>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="showEdit(recipe.id)">
+          Edit
+        </button>
+        <button mat-button color="warn" (click)="onDelete(recipe.id)">
+          Delete
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 <p class="" *ngIf="recipes.length == 0">Make a post to see them</p>
