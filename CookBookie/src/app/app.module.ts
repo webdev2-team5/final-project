@@ -14,6 +14,8 @@ import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/mate
 import { CreateRecipeComponent } from './recipe/create-recipe/create-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { RecipeService } from './recipe/recipe.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
@@ -37,12 +39,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatCard,
     MatInput,
     FormsModule,
-    MatButtonModule
-
+    MatButtonModule,
+    HttpClientModule
   ],
   providers: [
-
-  
+    RecipeService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
