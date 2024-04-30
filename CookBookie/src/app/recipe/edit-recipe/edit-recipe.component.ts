@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import {NgForm} from "@angular/forms"
-import {Recipe} from '../recipe'
-import { RecipeService } from '../recipe.service';
+import {Recipe} from '../../recipe'
+import { RecipeService } from '../../recipe.service';
 @Component({
   selector: 'app-edit-recipe',
   templateUrl: './edit-recipe.component.html',
-  styleUrl: './edit-recipe.component.css'
+  styleUrl: './edit-recipe.component.css',
 })
 export class EditRecipeComponent {
   @Output() postedited = new EventEmitter<Recipe>()
@@ -14,6 +14,7 @@ export class EditRecipeComponent {
    if (form.invalid) {
       return;
    }
-
+  //  this.editService.getRecipe()
   }
+  
 }
