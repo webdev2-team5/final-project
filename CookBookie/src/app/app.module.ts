@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipeService } from './recipe/recipe.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RecipeEditComponent } from './recipe/recipe-edit/recipe-edit.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HeaderComponent,
     FooterComponent,
     CreateRecipeComponent,
-  ],
+    RecipeEditComponent,
+ ],
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -41,7 +44,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatButtonModule,
     HttpClientModule,
   ],
-  providers: [RecipeService, provideAnimationsAsync()],
-  bootstrap: [AppComponent],
+  providers: [
+
+    provideHttpClient(withFetch()),                                           
+    provideAnimationsAsync()
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
