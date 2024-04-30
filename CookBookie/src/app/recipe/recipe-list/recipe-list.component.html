@@ -1,5 +1,5 @@
 
-  <button mat-raised-button type="menu">Create Recipe</button>
+  <button mat-raised-button (click)="enableRecipeComponent()">Create Recipe</button>
   <mat-accordion multi="true" *ngIf="recipes.length > 0">
     <mat-expansion-panel *ngFor="let recipe of recipes">
       <mat-expansion-panel-header>

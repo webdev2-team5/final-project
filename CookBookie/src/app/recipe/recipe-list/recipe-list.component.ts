@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { RecipeService } from '../recipe.service';
+import { SharedService } from 'src/app/shared.service';
 import { Subscription } from 'rxjs';
 import { Recipe } from '../recipe.model';
 
@@ -11,7 +12,11 @@ import { Recipe } from '../recipe.model';
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
   private recipesub:Subscription;
-  constructor(public recipeservice: RecipeService){}
+  constructor(public recipeservice: RecipeService, private service: SharedService){}
+
+  enableRecipeComponent() {
+    this.service.change();
+  }
 
   ngOnInit(){
     this.recipesub = this.recipeservice.getRecipeUpdateListener().subscribe((recipes)=>{
