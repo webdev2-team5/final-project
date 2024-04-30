@@ -14,6 +14,8 @@ import {MatFormField,MatFormFieldControl,MatFormFieldModule} from "@angular/mate
 import { EditRecipeComponent } from './recipe/edit-recipe/edit-recipe.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { RecipeService } from './recipe.service';
 
 @NgModule({
   declarations: [
@@ -36,11 +38,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatCard,
     MatInput,
     FormsModule,
-    MatButtonModule
-
+    MatButtonModule,
+    HttpClientModule
   ],
   providers: [
-
+    RecipeService
   ],
   bootstrap: [AppComponent]
 })

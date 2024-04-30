@@ -16,5 +16,5 @@ export class EditRecipeComponent {
    }
   //  this.editService.getRecipe()
   }
-  
+
 }
