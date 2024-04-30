@@ -26,9 +26,21 @@ export class RecipeService {
   }
   //function to fetch recipes
   getRecipe(){
-    this.http.get<{message:string,recipe:Recipe[]}>('http://loaclhost:3000/api/recipes').subscribe((recipeData)=>{
-      var recipe = recipeData.recipe;
-      return recipe;
+    this.http.get<{recipes:any}>('http://localhost:3000/api/recipes')
+    .pipe(map((recipeData)=>{
+      return recipeData.recipes.map(recipe => {
+        return {
+          id:recipe._id,
+          name:recipe.name,
+          ingredients:recipe.ingredients,
+          instructions:recipe.instructions,
+          favorited:recipe.favorited
+        }
+      })
+    }))
+    .subscribe((transformedPost)=>{
+      this.recipes = transformedPost;
+      this.recipeUpDate.next([...this.recipes]);
     })
   }
   //function to edit the recipe
@@ -41,18 +53,18 @@ export class RecipeService {
     }).subscribe((resp)=>{
       console.log(resp)
     })
-    
+
   }
   //fucntion to create recipe
   createRecipe(title:string,ingredients:string,instructions:string){
-    
+
     this.http.post('http://localhost:3000/api/recipes/:id',{
       name:title,
       ingredients:ingredients,
       instructions:instructions,
       favorited:false
     }).subscribe((resp)=>{
-      
+
     })
   }
   // function to delete recipe
