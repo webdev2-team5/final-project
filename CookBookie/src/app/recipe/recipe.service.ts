@@ -34,7 +34,8 @@ export class RecipeService {
           name:recipe.name,
           ingredients:recipe.ingredients,
           instructions:recipe.instructions,
-          favorited:recipe.favorited
+          favorited:recipe.favorited,
+          createdAt:recipe.createdAt
         }
       })
     }))
@@ -73,7 +74,7 @@ export class RecipeService {
 
   }
 
-  getPostUpdateListener() {
+  getRecipeUpdateListener() {
     return this.recipeUpDate.asObservable();
   }
 

@@ -1,7 +1,10 @@
+import { ObjectId } from "mongoose";
+
 export interface Recipe{
-    id:number,
+    id:ObjectId,
     name:string,
     ingredients:string,
     instructions:string,
-    favorited:boolean
+    favorited:boolean,
+    createdAt:Date
 }

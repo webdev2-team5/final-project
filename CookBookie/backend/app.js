@@ -54,9 +54,11 @@ app.use((req, res, next) => {
 // Route to retrieve all recipes
 app.get("/api/recipes", async (req, res) => {
   try {
-    const recipes = await Recipe.find();
-    logger("All recipes returned:" + recipes, 5);
-    res.json(recipes);
+    Recipe.find().then(documents => {
+      res.status(200).json({
+        recipes: documents
+      });
+    });
   } catch (err) {
     logger("No recipes found", 1);
     res.status(500).json({ message: err.message });
