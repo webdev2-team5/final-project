@@ -17,7 +17,7 @@ logger("Log Level: " + process.env.DEBUG_LEVEL, 0);
 mongoose
   .connect(uri, clientOptions)
   .then(() => {
-    logger("MongoDB Connection successful");
+    logger("Successfully connected to MongoDB.", 0);
   })
   .catch((err) => {
     logger("MongoDB connection error: " + err, 1);
@@ -28,7 +28,15 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use((req, res, next, err) => {
+app.use((err, req, res, next) => {
+  logger(err.stack, 1);
+  res.status(500).send({
+    error: "Internal Server Error",
+    message: err.message,
+  });
+});
+
+app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -40,24 +48,17 @@ app.use((req, res, next, err) => {
   );
 
   next();
-  logger(err.stack, 1);
-  res.status(500).send("Something broke!");
-});
-
-app.use((req, res, next) => {
-  logger(req.method + "- " + req.originalUrl, 4);
-  next();
 });
 
 // ROUTES WILL BE ADDED HERE
-// Route to retrieve a new recipe
+// Route to retrieve all recipes
 app.get("/api/recipes", async (req, res) => {
   try {
     const recipes = await Recipe.find();
-    logger(recipes, 5);
+    logger("All recipes returned:" + recipes, 5);
     res.json(recipes);
   } catch (err) {
-    logger(err, 1);
+    logger("No recipes found", 1);
     res.status(500).json({ message: err.message });
   }
 });
@@ -70,10 +71,10 @@ app.post("/api/recipes", async (req, res) => {
 
   try {
     const newRecipe = await recipe.save();
-    logger("Recipe saved", 5);
+    logger("New Recipe created and added to the database: " + recipe.name, 4);
     res.status(201).json(newRecipe);
   } catch (err) {
-    logger(err, 1);
+    logger("New Recipe not created.", 1);
     res.status(400).json({ message: err.message });
   }
 });
@@ -88,11 +89,45 @@ app.delete("/api/recipes/:id", async (req, res) => {
     }
 
     await recipe.remove();
-    logger("Deleted ID: " + req.params.id, 5);
+    logger("Recipe deleted from database: " + recipe.name, 4);
     res.json({ message: "Deleted Recipe" });
   } catch (err) {
-    logger(err, 1);
+    console.error("Recipe not deleted from database.");
     res.status(500).json({ message: err.message });
+  }
+});
+
+// Route to get a single recipe by id
+app.get("/api/recipes/:id", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+    logger("Recipe found and returned: " + recipe.name, 4);
+    res.json(recipe);
+  } catch (err) {
+    logger("Recipe not found.", 1);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Route to update a recipe
+app.patch("/api/recipes/:id", async (req, res) => {
+  const { name, ingredients, instructions, favorited } = req.body;
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+
+    if (name) recipe.name = name;
+    if (ingredients) recipe.ingredients = ingredients;
+    if (instructions) recipe.instructions = instructions;
+    if (favorited !== undefined) recipe.favorited = favorited;
+
+    const updatedRecipe = await recipe.save();
+    logger("Recipe updated: " + recipe.name, 4);
+    res.json(updatedRecipe);
+  } catch (err) {
+    logger("Recipe not updated.", 1);
+    res.status(400).json({ message: err.message });
   }
 });
 

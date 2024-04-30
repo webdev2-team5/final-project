@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import {HttpClient, HttpHeaders} from "@angular/common/http"
+import { Subject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { Recipe } from './recipe.model';
 import {map} from 'rxjs/operators'
 
@@ -9,6 +9,8 @@ import {map} from 'rxjs/operators'
 })
 
 export class RecipeService {
+  private backendUrl = 'http://localhost:3000/api/recipes';
+
   private recipes: Recipe[] = [];
   private recipeUpDate = new Subject<Recipe[]>()
 
@@ -60,8 +62,6 @@ export class RecipeService {
 
   getPostUpdateListener() {
     return this.recipeUpDate.asObservable();
+  }
+
 }
-
-
-}
-
