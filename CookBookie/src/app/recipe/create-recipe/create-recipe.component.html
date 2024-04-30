@@ -1,5 +1,5 @@
 <mat-card>
-    <form (submit)="onEditRecipe(editform)" #editform="ngForm" >
+    <form (submit)="onCreateRecipe(editform)" #editform="ngForm" >
         <mat-form-field>
             <label>Recipe Title</label>
             <input type="text" name="title" title="title" matInput>
@@ -14,6 +14,6 @@
 
             </textarea>
         </mat-form-field>
-        <button type="submit">Submit Edit</button>
+        <button type="submit">Submit</button>
     </form>
 </mat-card>

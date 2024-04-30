@@ -1,26 +1,32 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const Recipe = require('./Models/recipe')
-require('dotenv').config()
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const Recipe = require("./Models/recipe");
+const logger = require("./logger");
+require("dotenv").config();
 
 // Connect to MongoDB Atlas
 const uri = process.env.MONGO_URI;
-const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const clientOptions = {
+  serverApi: { version: "1", strict: true, deprecationErrors: true },
+};
 
-mongoose.connect(uri, clientOptions)
+logger("Log Level: " + process.env.DEBUG_LEVEL, 0);
+
+mongoose
+  .connect(uri, clientOptions)
   .then(() => {
     console.debug("Successfully connected to MongoDB.");
   })
-  .catch(err => {
-    console.error("MongoDB connection error:", err);
+  .catch((err) => {
+    logger("MongoDB connection error: " + err, 1);
     process.exit(1);
   });
 
 // Middleware
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -58,9 +64,10 @@ app.get('/api/recipes', async (req, res) => {
 });
 
 // Route to Post a new recipe
-app.post('/api/recipes', async (req, res) => {
+app.post("/api/recipes", async (req, res) => {
   const { name, ingredients, instructions, favorited } = req.body;
   const recipe = new Recipe({ name, ingredients, instructions, favorited });
+  logger(recipe, 5);
 
   try {
     const newRecipe = await recipe.save();
@@ -73,10 +80,14 @@ app.post('/api/recipes', async (req, res) => {
 });
 
 // Route to Delete a recipe
-app.delete('/api/recipes/:id', async (req, res) => {
+app.delete("/api/recipes/:id", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
-    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+    if (!recipe) {
+      logger("Deletion failed, no recipe found", 1);
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
     await recipe.remove();
     console.debug("Recipe deleted from database: ", recipe.name);
     res.json({ message: "Deleted Recipe" });
