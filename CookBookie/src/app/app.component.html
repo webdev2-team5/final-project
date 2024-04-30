@@ -1,6 +1,9 @@
-<app-header></app-header>
-<app-recipe-list></app-recipe-list>
-<router-outlet />
 <div class="app-wrapper">
-  <app-footer class="footer"></app-footer>
+  <app-header />
+  <div class="main-body">
+    <app-recipe-list />
+    <app-create-recipe />
+  </div>
+  <app-footer class="footer" />
 </div>
+<router-outlet />
