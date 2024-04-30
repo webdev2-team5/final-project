@@ -1,11 +1,12 @@
-<mat-card>
-  <button mat-raised-button>Create Recipe</button>
-  <mat-accordion>
-    <mat-expansion-panel>
+
+  <button mat-raised-button type="menu">Create Recipe</button>
+  <mat-accordion multi="true" *ngIf="recipes.length > 0">
+    <mat-expansion-panel *ngFor="let recipe of recipes">
       <mat-expansion-panel-header>
-        <mat-panel-title>Recipes</mat-panel-title>
+        <mat-panel-title>{{recipe.name}}</mat-panel-title>
       </mat-expansion-panel-header>
-      <p></p>
+      <p>{{recipe.ingredients}}</p>
+      <p>{{recipe.instructions}}</p>
     </mat-expansion-panel>
   </mat-accordion>
-</mat-card>
+<p class="" *ngIf="recipes.length == 0">Make a post to see them</p>

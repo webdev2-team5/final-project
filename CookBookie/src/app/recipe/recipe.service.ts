@@ -48,10 +48,11 @@ export class RecipeService {
     var recipechange = this.getRecipeById(recipeid)
     //this is not a working method yet and as part of this process a get request will need to be sent as well
     const data = {'recipe':recipechange}
-    this.http.patch('http:localhost:3000/api/recipes/:id',{
+    this.http.patch('http://localhost:3000/api/recipes/:id',{
 
     }).subscribe((resp)=>{
       console.log(resp)
+      return resp;
     })
 
   }
