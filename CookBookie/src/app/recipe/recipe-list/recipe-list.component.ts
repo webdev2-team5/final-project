@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecipeService } from '../recipe.service';
 import { SharedService } from 'src/app/shared.service';
 import { Subscription } from 'rxjs';
 import { Recipe } from '../recipe.model';
+import { ObjectId } from 'mongoose';
 
 @Component({
   selector: 'app-recipe-list',
@@ -18,14 +19,23 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.service.change();
   }
 
-  ngOnInit(){
-    this.recipesub = this.recipeservice.getRecipeUpdateListener().subscribe((recipes)=>{
-      this.recipes = recipes;
-    })
+  ngOnInit() {
+    this.recipesub = this.recipeservice
+      .getRecipeUpdateListener()
+      .subscribe((recipes) => {
+        this.recipes = recipes;
+      });
     this.recipeservice.getRecipe();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.recipesub.unsubscribe();
   }
 
+  onDelete(recipeId: ObjectId) {
+    this.recipeservice.deleteRecipe(recipeId);
+  }
+
+  showEdit(id) {
+    console.log('IMPLEMENT EDIT ME: ', id);
+  }
 }
