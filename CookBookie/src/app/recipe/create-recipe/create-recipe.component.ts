@@ -9,12 +9,12 @@ import { RecipeService } from '../recipe.service';
 })
 export class CreateRecipeComponent {
   @Output() postedited = new EventEmitter<Recipe>()
-  constructor(public editService: RecipeService){}
+  constructor(public recipeservice: RecipeService){}
   onCreateRecipe(form:NgForm){
    if (form.invalid) {
       return;
    }
-  //  this.editService.getRecipe()
+   
   }
   
 }
