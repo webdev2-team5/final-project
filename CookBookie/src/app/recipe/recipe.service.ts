@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import {HttpClient, HttpHeaders} from "@angular/common/http"
+import { Subject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { Recipe } from './recipe.model';
 import {map} from 'rxjs/operators'
 
@@ -9,24 +9,26 @@ import {map} from 'rxjs/operators'
 })
 
 export class RecipeService {
+  private backendUrl = 'http://localhost:3000/api/recipes';
+
   private recipes: Recipe[] = [];
   private recipeUpDate = new Subject<Recipe[]>()
 
   constructor(private http: HttpClient) { }
 
-  //function to fetch recipes
-  getRecipes(recipeid){
-    this.http.get<{message:string,recipe:Recipe[]}>('http://loaclhost:3000/api/recipes').subscribe((recipeData)=>{
-      var recipe = recipeData.recipe;
-      return recipe;
-    })
+  // Fetch all recipes
+  getRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.backendUrl);
   }
-  //function to edit the recipe
-  editRecipe(recipe:Recipe){
-    
-    //this is not a working method yet and as part of this process a get request will need to be sent as well
-    const data = {'recipe':recipe}
-    this.http.post('http://localhost:3000/api/recipes',{data})
+
+  // Edit recipe by id
+  editRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.patch<Recipe>(`${this.backendUrl}/${recipe.id}`, recipe);
+  }
+
+  // Fetch recipe by id
+  getRecipe(id: number): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.backendUrl}/${id}`);
   }
 
   // function to delete recipe
@@ -36,8 +38,6 @@ export class RecipeService {
 
   getPostUpdateListener() {
     return this.recipeUpDate.asObservable();
+  }
+
 }
-
-
-}
-
