@@ -2,7 +2,7 @@
   <app-header />
   <div class="main-body">
     <app-recipe-list />
-    <app-create-recipe />
+    <app-create-recipe *ngIf="createRecipeComponentEnabled" />
   </div>
   <app-footer class="footer" />
 </div>

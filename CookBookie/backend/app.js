@@ -59,7 +59,9 @@ app.post("/api/recipes", async (req, res) => {
   const recipe = new Recipe({
     name: req.body.name,
     ingredients: req.body.ingredients,
-    instructions: req.body.instructions
+    instructions: req.body.instructions,
+    favorited: false,
+    createdAt: Date.now()
   });
 
   try {

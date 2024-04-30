@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from './shared.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CookBookie';
+  createRecipeComponentEnabled = false;
+
+  constructor(ss: SharedService) {
+    ss.fire.subscribe(
+      (enabled) => {
+        this.createRecipeComponentEnabled = enabled;
+      }
+    )
+  }
 }
