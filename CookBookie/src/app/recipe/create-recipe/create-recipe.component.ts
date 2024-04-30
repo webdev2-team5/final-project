@@ -16,6 +16,9 @@ export class CreateRecipeComponent {
       return;
    }
    this.service.changeBack();
+
+      this.recipeservice.createRecipe(form.value.name, form.value.instructions, form.value.ingredients)
+
   }
 
 }

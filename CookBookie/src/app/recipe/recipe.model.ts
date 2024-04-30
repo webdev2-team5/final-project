@@ -6,5 +6,5 @@ export interface Recipe{
     ingredients:string,
     instructions:string,
     favorited:boolean,
-    createdAt:Date
+    createdAt:number
 }
