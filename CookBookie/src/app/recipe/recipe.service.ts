@@ -65,15 +65,15 @@ export class RecipeService {
       });
   }
   //fucntion to create recipe
-  createRecipe(title: string, ingredients: string, instructions: string) {
-    this.http
-      .post('http://localhost:3000/api/recipes/:id', {
-        name: title,
-        ingredients: ingredients,
-        instructions: instructions,
-        favorited: false,
-      })
-      .subscribe((resp) => {});
+
+  createRecipe(name:string,ingredients:string,instructions:string){
+    const recipe: Recipe = {id: null, name: name, instructions: instructions, ingredients:ingredients, favorited:false, createdAt: Date.now()}
+        console.log(recipe)
+        this.http.post<{}>("http://localhost:3000/api/recipes", recipe)
+        .subscribe(() => { 
+            this.recipes.push(recipe);
+            this.recipeUpDate.next([...this.recipes]);
+        });
   }
   // function to delete recipe
   deleteRecipe(id: ObjectId) {

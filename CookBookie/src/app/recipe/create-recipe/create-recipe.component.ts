@@ -11,9 +11,8 @@ export class CreateRecipeComponent {
   @Output() postedited = new EventEmitter<Recipe>()
   constructor(public recipeservice: RecipeService){}
   onCreateRecipe(form:NgForm){
-   if (form.invalid) {
-      return;
-   }
+   
+      this.recipeservice.createRecipe(form.value.name, form.value.instructions, form.value.ingredients)
    
   }
 
