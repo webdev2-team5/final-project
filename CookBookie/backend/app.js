@@ -28,14 +28,6 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use((err, req, res, next) => {
-  logger(err.stack, 1);
-  res.status(500).send({
-    error: "Internal Server Error",
-    message: err.message,
-  });
-});
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -54,83 +46,81 @@ app.use((req, res, next) => {
 // Route to retrieve all recipes
 app.get("/api/recipes", async (req, res) => {
   try {
-    Recipe.find().then(documents => {
-      res.status(200).json({
-        recipes: documents
-      });
-    });
+    const recipes = await Recipe.find();
+    res.status(200).json({ recipes });
   } catch (err) {
-    logger("No recipes found", 1);
+    logger("Error retrieving recipes", 1);
     res.status(500).json({ message: err.message });
   }
 });
 
-// Route to Post a new recipe
+// Add new recipe
 app.post("/api/recipes", async (req, res) => {
   const recipe = new Recipe({
-    name: req.body.name, 
+    name: req.body.name,
     ingredients: req.body.ingredients,
     instructions: req.body.instructions,
     favorited: false,
     createdAt: Date.now()
-  })
-  recipe.save()
-  console.log(recipe)
-  res.status(201).json({
-    message: "Post added successfully"
-});
-});
+  });
 
-// Route to Delete a recipe
-app.delete("/api/recipes/:id", async (req, res) => {
   try {
-    const recipe = await Recipe.findById(req.params.id);
-    if (!recipe) {
-      logger("Deletion failed, no recipe found", 1);
-      return res.status(404).json({ message: "Recipe not found" });
-    }
-
-    await recipe.remove();
-    logger("Recipe deleted from database: " + recipe.name, 4);
-    res.json({ message: "Deleted Recipe" });
+    await recipe.save();
+    logger("New Recipe created: " + recipe.name, 4);
+    res.status(201).json({
+      message: "Recipe added successfully",
+      recipeId: recipe._id
+    });
   } catch (err) {
-    console.error("Recipe not deleted from database.");
-    res.status(500).json({ message: err.message });
+    logger("Failed to create recipe.", 1);
+    res.status(400).json({ message: err.message });
   }
 });
 
-// Route to get a single recipe by id
-app.get("/api/recipes/:id", async (req, res) => {
+// Delete a recipe
+app.delete("/api/recipes/:id", async (req, res) => {
   try {
-    const recipe = await Recipe.findById(req.params.id);
-    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
-    logger("Recipe found and returned: " + recipe.name, 4);
-    res.json(recipe);
+    const result = await Recipe.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    logger("Recipe deleted", 4);
+    res.status(200).json({ message: "Recipe deleted" });
   } catch (err) {
-    logger("Recipe not found.", 1);
+    logger("Failed to delete recipe.", 1);
     res.status(500).json({ message: err.message });
   }
 });
 
 // Route to update a recipe
 app.patch("/api/recipes/:id", async (req, res) => {
-  const { name, ingredients, instructions, favorited } = req.body;
   try {
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-    if (name) recipe.name = name;
-    if (ingredients) recipe.ingredients = ingredients;
-    if (instructions) recipe.instructions = instructions;
-    if (favorited !== undefined) recipe.favorited = favorited;
+    recipe.name = req.body.name || recipe.name;
+    recipe.ingredients = req.body.ingredients || recipe.ingredients;
+    recipe.instructions = req.body.instructions || recipe.instructions;
 
     const updatedRecipe = await recipe.save();
     logger("Recipe updated: " + recipe.name, 4);
-    res.json(updatedRecipe);
+    res.json({
+      message: "Recipe updated",
+      recipe: updatedRecipe
+    });
   } catch (err) {
-    logger("Recipe not updated.", 1);
+    logger("Recipe update failed.", 1);
     res.status(400).json({ message: err.message });
   }
+});
+
+// Error catching middleware
+app.use((err, req, res, next) => {
+  logger(err.stack, 1);
+  res.status(500).send({
+    error: "Internal Server Error",
+    message: err.message,
+  });
 });
 
 module.exports = app;
