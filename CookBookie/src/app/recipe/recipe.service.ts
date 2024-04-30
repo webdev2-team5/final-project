@@ -17,8 +17,12 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   // Fetch all recipes
-  getRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.backendUrl);
+  getRecipes() {
+    this.http.get<{recipes: Recipe[]}>(this.backendUrl)
+    .subscribe((recipeData)=>{
+      this.recipes = recipeData.recipes;
+      this.recipeUpDate.next([...this.recipes]);
+    });
   }
 
   // Edit recipe by id

@@ -5,7 +5,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title>Recipes</mat-panel-title>
       </mat-expansion-panel-header>
-      <p></p>
+      <p *ngFor="let recipe of recipes">{{recipe.name}}</p>
     </mat-expansion-panel>
   </mat-accordion>
 </mat-card>

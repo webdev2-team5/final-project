@@ -1,5 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export interface Recipe{
-    id:number,
+    id:ObjectId,
     name:string,
     ingredients:string,
     instructions:string,
