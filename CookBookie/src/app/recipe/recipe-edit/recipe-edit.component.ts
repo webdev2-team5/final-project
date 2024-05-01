@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RecipeService } from '../recipe.service';
 import { NgForm } from '@angular/forms';
+import { ObjectId } from 'mongoose';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -16,7 +17,7 @@ onEditRecipe(form:NgForm){
   }
   //probably 
   //temporary variable as placeholder
-  var recipeid = '66303f2759f914cdb111bcc6';
+  var recipeid:ObjectId
   this.recipe = this.recipeservice.getRecipeById(recipeid)
   //this.recipeservice.editRecipe(recipeid,form.value.title,form.value.ingredients,form.value.instructions);
 }

@@ -16,10 +16,10 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
   //function to get recipes by id
-  getRecipeById(id: string) {
+  getRecipeById(id: ObjectId) {
     this.http
       .get('http://localhost:3000/api/recipes/:id', {})
-      .subscribe((recipe) => {
+      .subscribe((recipe:Recipe) => {
         console.log(recipe);
         return recipe;
       });
@@ -49,19 +49,20 @@ export class RecipeService {
   }
   //function to edit the recipe
   editRecipe(
-    recipeid: string,
-    title: string,
+    recipeid: ObjectId,
+    name: string,
     ingredients: string,
-    recipe: string
+    instructions: string
   ) {
-    var recipechange = this.getRecipeById(recipeid);
+    //need to fix the null variable and fix get recipeby id
+    var recipe:Recipe = {id:recipeid,name:name,instructions:instructions,ingredients:ingredients,favorited:false,createdAt:null}
+
     //this is not a working method yet and as part of this process a get request will need to be sent as well
-    const data = { recipe: recipechange };
+
     this.http
-      .patch('http://localhost:3000/api/recipes/:id', {})
-      .subscribe((resp) => {
-        console.log(resp);
-        return resp;
+      .patch<{}>('http://localhost:3000/api/recipes/:id', recipe)
+      .subscribe(() => {
+        
       });
   }
   //fucntion to create recipe
