@@ -24,10 +24,11 @@ export class RecipeEditComponent {
 
     this.recipeservice.editRecipe(
       this.recipe.id,
-      form.value.title,
+      form.value.name,
       form.value.ingredients,
       form.value.instructions
     );
+
     this.sharedService.hideEdit();
   }
 

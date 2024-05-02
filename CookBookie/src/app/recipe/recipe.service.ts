@@ -48,15 +48,18 @@ export class RecipeService {
   //function to edit the recipe
   editRecipe(
     recipeId: ObjectId,
-    title: string,
+    name: string,
     ingredients: string,
-    recipe: string
+    instructions: string
   ) {
-    var recipechange = this.getRecipeById(recipeId);
-    //this is not a working method yet and as part of this process a get request will need to be sent as well
-    const data = { recipe: recipechange };
+    const body = {
+      name: name,
+      ingredients: ingredients,
+      instructions: instructions,
+    };
+
     this.http
-      .patch(this.backendUrl + '/' + recipeId, recipechange, {})
+      .patch(this.backendUrl + '/' + recipeId, body, {})
       .subscribe((resp) => {
         console.log(resp);
         return resp;

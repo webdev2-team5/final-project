@@ -61,7 +61,7 @@ app.post("/api/recipes", async (req, res) => {
     ingredients: req.body.ingredients,
     instructions: req.body.instructions,
     favorited: false,
-    createdAt: Date.now()
+    createdAt: Date.now(),
   });
 
   try {
@@ -69,7 +69,7 @@ app.post("/api/recipes", async (req, res) => {
     logger("New Recipe created: " + recipe.name, 4);
     res.status(201).json({
       message: "Recipe added successfully",
-      recipeId: recipe._id
+      recipeId: recipe._id,
     });
   } catch (err) {
     logger("Failed to create recipe.", 1);
@@ -95,21 +95,24 @@ app.delete("/api/recipes/:id", async (req, res) => {
 // Route to update a recipe
 app.patch("/api/recipes/:id", async (req, res) => {
   try {
+    logger("Patching: " + req.params.id, 4);
+
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-    recipe.name = req.body.name || recipe.name;
-    recipe.ingredients = req.body.ingredients || recipe.ingredients;
-    recipe.instructions = req.body.instructions || recipe.instructions;
+    recipe.name = req.body.name;
+    recipe.ingredients = req.body.ingredients;
+    recipe.instructions = req.body.instructions;
 
     const updatedRecipe = await recipe.save();
     logger("Recipe updated: " + recipe.name, 4);
+
     res.json({
       message: "Recipe updated",
-      recipe: updatedRecipe
+      recipe: updatedRecipe,
     });
   } catch (err) {
-    logger("Recipe update failed.", 1);
+    logger("Recipe update failed: " + err.message, 1);
     res.status(400).json({ message: err.message });
   }
 });
