@@ -4,17 +4,15 @@ import { SharedService } from './shared.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'CookBookie';
   createRecipeComponentEnabled = false;
 
   constructor(ss: SharedService) {
-    ss.fire.subscribe(
-      (enabled) => {
-        this.createRecipeComponentEnabled = enabled;
-      }
-    )
+    ss.addForm.subscribe((value) => {
+      this.createRecipeComponentEnabled = value;
+    });
   }
 }

@@ -1,17 +1,17 @@
-import { Injectable, Input,Output,EventEmitter } from '@angular/core';
+import { Injectable, Input, Output, EventEmitter } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
-  @Output() fire: EventEmitter<any> = new EventEmitter();
-  constructor() { }
+  @Output() addForm: EventEmitter<boolean> = new EventEmitter();
 
-  change() {
-    console.log('change started');
-     this.fire.emit(true);
-   }
-   changeBack() {
-    this.fire.emit(false);
-   }
+  showAdd() {
+    console.log('Showing New Recipe form');
+    this.addForm.emit(true);
+  }
+
+  hideAdd() {
+    this.addForm.emit(false);
+  }
 }
