@@ -12,11 +12,14 @@ import { ObjectId } from 'mongoose';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
-  private recipesub:Subscription;
-  constructor(public recipeservice: RecipeService, private service: SharedService){}
+  private recipesub: Subscription;
+  constructor(
+    public recipeservice: RecipeService,
+    private service: SharedService
+  ) {}
 
-  enableRecipeComponent() {
-    this.service.change();
+  toggleRecipeAddComponent() {
+    this.service.showAdd();
   }
 
   ngOnInit() {
