@@ -30,7 +30,6 @@ export class CreateRecipeComponent {
   }
 
   onCancel() {
-    // console.log('Canceling create');
     this.service.hideAdd();
   }
 }
