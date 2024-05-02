@@ -1,23 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RecipeService } from '../recipe.service';
 import { NgForm } from '@angular/forms';
+import { SharedService } from 'src/app/shared.service';
+import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styleUrl: './recipe-edit.component.css'
+  styleUrl: './recipe-edit.component.css',
 })
 export class RecipeEditComponent {
-private recipe;
-constructor(public recipeservice:RecipeService){}
-onEditRecipe(form:NgForm){
-  if (form.invalid) {
-    return;
+  @Input() recipe: Recipe;
+
+  constructor(
+    public recipeservice: RecipeService,
+    public sharedService: SharedService
+  ) {}
+
+  onEditRecipe(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+
+    this.recipeservice.editRecipe(
+      this.recipe.id,
+      form.value.title,
+      form.value.ingredients,
+      form.value.instructions
+    );
+    this.sharedService.hideEdit();
   }
-  //probably 
-  //temporary variable as placeholder
-  var recipeid = '66303f2759f914cdb111bcc6';
-  this.recipe = this.recipeservice.getRecipeById(recipeid)
-  //this.recipeservice.editRecipe(recipeid,form.value.title,form.value.ingredients,form.value.instructions);
-}
+
+  onCancel() {
+    this.sharedService.hideEdit();
+  }
 }

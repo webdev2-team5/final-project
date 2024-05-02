@@ -15,19 +15,16 @@ export class RecipeService {
   private recipeUpDate = new Subject<Recipe[]>();
 
   constructor(private http: HttpClient) {}
+
   //function to get recipes by id
-  getRecipeById(id: string) {
-    this.http
-      .get('http://localhost:3000/api/recipes/:id', {})
-      .subscribe((recipe) => {
-        console.log(recipe);
-        return recipe;
-      });
+  getRecipeById(id: ObjectId) {
+    return this.http.get(this.backendUrl + '/' + id);
   }
+
   //function to fetch recipes
   getRecipe() {
     this.http
-      .get<{ recipes: any }>('http://localhost:3000/api/recipes')
+      .get<{ recipes: any }>(this.backendUrl)
       .pipe(
         map((recipeData) => {
           return recipeData.recipes.map((recipe) => {
@@ -47,43 +44,49 @@ export class RecipeService {
         this.recipeUpDate.next([...this.recipes]);
       });
   }
+
   //function to edit the recipe
   editRecipe(
-    recipeid: string,
+    recipeId: ObjectId,
     title: string,
     ingredients: string,
     recipe: string
   ) {
-    var recipechange = this.getRecipeById(recipeid);
+    var recipechange = this.getRecipeById(recipeId);
     //this is not a working method yet and as part of this process a get request will need to be sent as well
     const data = { recipe: recipechange };
     this.http
-      .patch('http://localhost:3000/api/recipes/:id', {})
+      .patch(this.backendUrl + '/' + recipeId, recipechange, {})
       .subscribe((resp) => {
         console.log(resp);
         return resp;
       });
   }
-  //fucntion to create recipe
 
-  createRecipe(name:string,ingredients:string,instructions:string){
-    const recipe: Recipe = {id: null, name: name, instructions: instructions, ingredients:ingredients, favorited:false, createdAt: Date.now()}
-        console.log(recipe)
-        this.http.post<{}>("http://localhost:3000/api/recipes", recipe)
-        .subscribe(() => { 
-            this.recipes.push(recipe);
-            this.recipeUpDate.next([...this.recipes]);
-        });
+  // function to create recipe
+  createRecipe(name: string, ingredients: string, instructions: string) {
+    const recipe: Recipe = {
+      id: null,
+      name: name,
+      instructions: instructions,
+      ingredients: ingredients,
+      favorited: false,
+      createdAt: Date.now(),
+    };
+    console.log(recipe);
+    this.http.post<{}>(this.backendUrl, recipe).subscribe(() => {
+      this.recipes.push(recipe);
+      this.recipeUpDate.next([...this.recipes]);
+    });
   }
+
   // function to delete recipe
   deleteRecipe(id: ObjectId) {
-    this.http
-      .delete('http://localhost:3000/api/recipes/' + id)
-      .subscribe(() => {
-        const updatedRecipe = this.recipes.filter((recipe) => recipe.id != id);
-        this.recipes = updatedRecipe;
-        this.recipeUpDate.next([...this.recipes]);
-      });
+    this.http.delete(this.backendUrl + '/' + id).subscribe(() => {
+      const updatedRecipe = this.recipes.filter((recipe) => recipe.id != id);
+      this.recipes = updatedRecipe;
+      this.recipeUpDate.next([...this.recipes]);
+    });
   }
 
   getRecipeUpdateListener() {

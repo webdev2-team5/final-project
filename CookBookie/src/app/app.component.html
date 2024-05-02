@@ -1,8 +1,9 @@
 <div class="app-wrapper">
   <app-header />
   <div class="main-body">
-    <app-recipe-list />
+    <app-recipe-list (editRecipe)="changeEditRecipe($event)" />
     <app-create-recipe *ngIf="createRecipeComponentEnabled" />
+    <app-recipe-edit *ngIf="editRecipeComponentEnabled" [recipe]="editRecipe" />
   </div>
   <app-footer class="footer" />
 </div>
