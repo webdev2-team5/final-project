@@ -1,19 +1,46 @@
-
 <mat-card>
-    <form (submit)="onEditRecipe(formData)" #formData="ngForm" >
-        <mat-form-field>
-            <label>Recipe Title</label>
-            <input type="text" matInput title="name" name="name">
-        </mat-form-field>
-        <mat-form-field>
-            <label>Ingredients</label>
-            <textarea rows="4" name="ingredients" matInput></textarea>
-        </mat-form-field>
-        <mat-form-field>
-            <label>Recipe</label>
-            <textarea rows="8" name="instructions" matInput>
-            </textarea>
-        </mat-form-field>
-        <button type="submit">Edit Recipe</button>
+  <mat-card-header>
+    <mat-card-title>Edit Recipe</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (submit)="onEditRecipe(formData)" #formData="ngForm">
+      <mat-form-field>
+        <mat-label>Recipe Title</mat-label>
+        <input
+          type="text"
+          name="name"
+          title="name"
+          matInput
+          [(ngModel)]="recipe.name"
+          #name="ngModel"
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Ingredients</mat-label>
+        <textarea
+          rows="4"
+          name="ingredients"
+          matInput
+          [(ngModel)]="recipe.ingredients"
+          #ingredients="ngModel"
+        ></textarea>
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <mat-label>Instructions</mat-label>
+        <textarea
+          rows="8"
+          name="instructions"
+          matInput
+          [(ngModel)]="recipe.instructions"
+          #instructions="ngModel"
+        ></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+        Cancel
+      </button>
     </form>
+  </mat-card-content>
 </mat-card>

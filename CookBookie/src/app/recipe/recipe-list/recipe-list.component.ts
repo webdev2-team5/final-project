@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { RecipeService } from '../recipe.service';
 import { SharedService } from 'src/app/shared.service';
 import { Subscription } from 'rxjs';
@@ -12,6 +18,8 @@ import { ObjectId } from 'mongoose';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
+  @Output() editRecipe = new EventEmitter<Recipe>();
+
   private recipesub: Subscription;
   constructor(
     public recipeservice: RecipeService,
@@ -30,6 +38,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
       });
     this.recipeservice.getRecipe();
   }
+
   ngOnDestroy() {
     this.recipesub.unsubscribe();
   }
@@ -38,7 +47,8 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.recipeservice.deleteRecipe(recipeId);
   }
 
-  showEdit(id) {
-    console.log('IMPLEMENT EDIT ME: ', id);
+  showEdit(recipe: Recipe) {
+    this.editRecipe.emit(recipe);
+    this.service.showEdit();
   }
 }
